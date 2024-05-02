@@ -1,30 +1,13 @@
+import _ from "lodash";
+import { Link } from "react-router-dom";
+
 const Categories = () => {
   const allCategories = [
-    "electronics",
-    "jewelery",
-    "men's clothing",
-    "women's clothing",
+    { en: "electronics", es: "Electrónicos" },
+    { en: "jewelery", es: "Joyería" },
+    { en: "men's clothing", es: "Ropa de Hombre" },
+    { en: "women's clothing", es: "Ropa de Mujer" },
   ];
-  const dictionary = {
-    electronics: "Electrónicos",
-    jewelery: "Joyería",
-    "men's clothing": "Ropa de Hombre",
-    "women's clothing": "Ropa de Mujer",
-  };
-  let content = "";
-  for (const category of allCategories) {
-    content += `
-      <li>
-        <a 
-          className="dropdown-item navbar-options-selector"
-          href="#"
-          data-value="${category}"
-        >
-          ${dictionary[category]}
-        </a>
-      </li>
-    `;
-  }
   return (
     <>
       <ul
@@ -32,51 +15,50 @@ const Categories = () => {
         className="navbar-nav ms-auto mb-2 mb-lg-0"
       >
         <li className="nav-item">
-          <a
+          <Link
             className="nav-link navbar-options-selector"
-            aria-current="page"
-            href="#"
-            id="navbar-options-allProducts"
-            data-value="allProducts"
+            to={`/category/allProducts`}
           >
             Todos los Productos
-          </a>
+          </Link>
         </li>
         <li className="nav-item dropdown">
-          <a
+          <Link
             className="nav-link dropdown-toggle"
-            href="#"
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
             Categorias
-          </a>
-          <ul
-            id="categories-container"
-            className="dropdown-menu"
-            dangerouslySetInnerHTML={{ __html: content }}
-          ></ul>
+          </Link>
+          <ul id="categories-container" className="dropdown-menu">
+            {allCategories.map((category) => (
+              <li>
+                <Link
+                  className="dropdown-item navbar-options-selector"
+                  to={`/category/${_.camelCase(category.en)}`}
+                >
+                  <span className="p-3"> {category.es} </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </li>
         <li className="nav-item">
-          <a
+          <Link
             className="nav-link navbar-options-selector"
-            href="#"
-            id="navbar-options-bestSellers"
-            data-value="bestSellers"
+            to={`/category/bestSellers`}
           >
             Más Vendidos
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a
+          <Link
             className="nav-link navbar-options-selector"
-            href="#"
-            id="navbar-options-mostValued"
-            data-value="mostValued"
+            to={`/category/topRated`}
           >
             Mejores Valorados
-          </a>
+          </Link>
         </li>
       </ul>
     </>
